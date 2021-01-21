@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>HexCamp</title>
+    <style>
+      // https://stackoverflow.com/questions/40853308/watermark-text-repeated-diagonally-css-html
+      .watermarked {
+        position: relative;
+      }
+
+      .watermarked img {
+        width: 100%;
+      }
+
+      .watermarked::before {
+        position: absolute;
+        top: -200%;
+        left: -200%;
+
+        display: block;
+        width: 500%;
+        height: 500%;
+
+        transform: rotate(-45deg);
+        content: attr(data-watermark);
+
+        opacity: 0.3;
+        line-height: 3em;
+        letter-spacing: 2px;
+        color: #000;
+        font-size: 400%;
+      }
+
+      .bg {
+        position: absolute;
+        z-index: -1;
+        overflow: hidden;
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HexCamp</h1>
+    <p>
+      ⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️ 
+    </p>
+    <p class="hex1">
+      ⬢ 
+    </p>
+    <p class="hex2">
+      ⬡ 
+    </p>
+    <div class="bg">
+      <div class="watermarked" data-watermark="⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️"></div>
+    </div>
+    <script>
+      Array.from(document.querySelectorAll('.watermarked')).forEach(function(el) {
+        el.dataset.watermark = (el.dataset.watermark + ' ').repeat(300);
+      });
+    </script>
+  </body>
+</html>
+
