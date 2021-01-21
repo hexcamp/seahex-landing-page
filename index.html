@@ -1,76 +1,111 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HexCamp</title>
     <style>
-      // https://stackoverflow.com/questions/40853308/watermark-text-repeated-diagonally-css-html
-      .watermarked {
-        position: relative;
+      /* The bare minimum English subset, plus copyright & arrows (← ↑ → ↓) & quotes (“ ” ‘ ’) & bullet (•) */
+      @font-face {
+        font-family: 'Recursive';
+        font-style: oblique 0deg 15deg;
+        font-weight: 300 1000;
+        font-display: block;
+        src: url('/fonts/Recursive_VF_1.062--subset_range_english_basic.woff2')
+          format('woff2');
+        unicode-range: U+0020-007F, U+00A9, U+2190-2193, U+2018, U+2019, U+201C,
+          U+201D, U+2022;
       }
 
-      .watermarked img {
-        width: 100%;
+      body {
+        color: white;
+        font-family: Recursive;
       }
 
-      .watermarked::before {
-        position: absolute;
-        top: -200%;
-        left: -200%;
+      h1 {
+        font-family: Recursive;
+        font-size: 12vw;
+        font-variation-settings: 'MONO' 0, 'CASL' 0.4, 'slnt' -30, 'CRSV' 0,
+          'wght' 1000;
+        color: hsl(61deg 100% 50%);
+      }
 
-        display: block;
-        width: 500%;
-        height: 500%;
+      .grid {
+        display: grid;
+      }
 
-        transform: rotate(-45deg);
-        content: attr(data-watermark);
-
-        opacity: 0.3;
-        line-height: 3em;
-        letter-spacing: 2px;
-        color: #000;
-        font-size: 400%;
+      .grid > * {
+        justify-self: center;
       }
 
       .bg {
         position: absolute;
         z-index: -1;
         overflow: hidden;
-        width: 100%;
-        height: 100vh;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
 
-      // https://codepen.io/gpyne/pen/iElhp
-      .bg *, .bg *::before, .bg *::after {
+      /* https://codepen.io/gpyne/pen/iElhp */
+      .bg *,
+      .bg *::before,
+      .bg *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+      }
+      .darkscreen {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: hsl(116deg 73% 8% / 75%);
+      }
+      .honeycomb {
+        position: absolute;
+        margin: 0 auto;
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        width: 200%;
+        margin: -70px;
+        z-index: -3;
+      }
+      .pair {
+        /* inline-block whitespace fix */
+        font-size: 0;
       }
 
       .hexagon {
         position: relative;
         display: inline-block;
         /* left/right margin approx. 25% of .hexagon width + spacing */
-        margin: 1px 18px;
-        background-color: hsl(220, 75%, 75%);
+        margin: 2px 18px;
+        background-color: hsl(238deg 54% 20%);
         text-align: center;
       }
-      .hexagon, .hexagon::before, .hexagon::after {
+      .hexagon,
+      .hexagon::before,
+      .hexagon::after {
         /* easy way: height is width * 1.732
         actual formula is 2*(width/(2*Math.tan(Math.PI/6)))
         remove border-radius for sharp corners on hexagons */
         width: 67px;
         height: 116px;
-        border-radius: 20%/5%;
+        /* border-radius: 20%/5%; */
       }
       .hexagon::before {
         background-color: inherit;
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         transform: rotate(-60deg);
       }
       .hexagon::after {
         background-color: inherit;
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         transform: rotate(60deg);
@@ -85,60 +120,49 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 140%;
-        font-size: 1.4rem;
+        font-size: 4rem;
         line-height: 1.2;
         z-index: 100;
-      }
-      .pair {
-        /* inline-block whitespace fix */
-        font-size: 0;
-      }
-      .honeycomb {
-        margin: 0 auto;
-        text-align: center;
-        display: flex;
-        flex-wrap: wrap;
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
       }
     </style>
   </head>
   <body>
-    <h1>HexCamp</h1>
-    <p>
-      ⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️ 
-    </p>
+    <div class="grid">
+      <h1 style="grid-row: 1">HexCamp</h1>
+      <p style="grid-row: 2; font-size: 150%; text-align: center">
+        Escape to the cyberwilderness!
+      </p>
+    </div>
     <div class="bg">
+      <div class="darkscreen"></div>
       <div class="honeycomb"></div>
-      <div class="watermarkedx" data-watermark="⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️"></div>
     </div>
     <script>
-      let emojis = "⛺ 🏕️ 🥾 🔦 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️"
+      let emojis =
+        '⛺ 🏕️ 🥾 🔦 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️'
       emojis = emojis.split(' ')
       console.log('Emojis', emojis)
       const honeycombEl = document.querySelector('.honeycomb')
-      for (let i = 0; i < 100; i += 2) {
+      for (let i = 0; i < 1000; i += 2) {
         const pairEl = document.createElement('div')
         pairEl.className = 'pair'
-        addHex()
-        addHex()
+        addHex(pairEl)
+        addHex(pairEl)
         honeycombEl.appendChild(pairEl)
-
-        function addHex() {
-          const hexEl = document.createElement('div')
-          hexEl.className = 'hexagon'
-          const contentEl = document.createElement('div')
-          contentEl.className = 'hexagontent'
-          contentEl.textContent = emojis[Math.floor(Math.random() * emojis.length)]
-          hexEl.appendChild(contentEl)
-          pairEl.appendChild(hexEl)
-        }
       }
 
-      /*
-      Array.from(document.querySelectorAll('.watermarked')).forEach(function(el) {
-        el.dataset.watermark = (el.dataset.watermark + ' ').repeat(300);
-      });
-      */
+      function addHex (pairEl) {
+        const hexEl = document.createElement('div')
+        hexEl.className = 'hexagon'
+        const contentEl = document.createElement('div')
+        contentEl.className = 'hexagontent'
+        contentEl.textContent =
+          emojis[Math.floor(Math.random() * emojis.length)]
+        hexEl.appendChild(contentEl)
+        pairEl.appendChild(hexEl)
+      }
     </script>
   </body>
 </html>
-
