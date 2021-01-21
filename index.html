@@ -37,6 +37,68 @@
         width: 100%;
         height: 100vh;
       }
+
+      // https://codepen.io/gpyne/pen/iElhp
+      .bg *, .bg *::before, .bg *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .hexagon {
+        position: relative;
+        display: inline-block;
+        /* left/right margin approx. 25% of .hexagon width + spacing */
+        margin: 1px 18px;
+        background-color: hsl(220, 75%, 75%);
+        text-align: center;
+      }
+      .hexagon, .hexagon::before, .hexagon::after {
+        /* easy way: height is width * 1.732
+        actual formula is 2*(width/(2*Math.tan(Math.PI/6)))
+        remove border-radius for sharp corners on hexagons */
+        width: 67px;
+        height: 116px;
+        border-radius: 20%/5%;
+      }
+      .hexagon::before {
+        background-color: inherit;
+        content: "";
+        position: absolute;
+        left: 0;
+        transform: rotate(-60deg);
+      }
+      .hexagon::after {
+        background-color: inherit;
+        content: "";
+        position: absolute;
+        left: 0;
+        transform: rotate(60deg);
+      }
+      .hexagon:nth-child(even) {
+        /* top approx. 50% of .hexagon height + spacing */
+        top: 59px;
+      }
+      .hexagontent {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 140%;
+        font-size: 1.4rem;
+        line-height: 1.2;
+        z-index: 100;
+      }
+      .pair {
+        /* inline-block whitespace fix */
+        font-size: 0;
+      }
+      .honeycomb {
+        margin: 0 auto;
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+      }
     </style>
   </head>
   <body>
@@ -44,19 +106,38 @@
     <p>
       ⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️ 
     </p>
-    <p class="hex1">
-      ⬢ 
-    </p>
-    <p class="hex2">
-      ⬡ 
-    </p>
     <div class="bg">
-      <div class="watermarked" data-watermark="⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️"></div>
+      <div class="honeycomb"></div>
+      <div class="watermarkedx" data-watermark="⬢ ⛺ 🏕️ 🥾 🔦 ⬡ 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️"></div>
     </div>
     <script>
+      let emojis = "⛺ 🏕️ 🥾 🔦 🔥 🚙 🧭 🌲 🏞️ 🚣 ⛰️ 🏔️ 🥾 🧗 🛶 🎣 🌄 🍁 🗻 🌳 🗺️"
+      emojis = emojis.split(' ')
+      console.log('Emojis', emojis)
+      const honeycombEl = document.querySelector('.honeycomb')
+      for (let i = 0; i < 100; i += 2) {
+        const pairEl = document.createElement('div')
+        pairEl.className = 'pair'
+        addHex()
+        addHex()
+        honeycombEl.appendChild(pairEl)
+
+        function addHex() {
+          const hexEl = document.createElement('div')
+          hexEl.className = 'hexagon'
+          const contentEl = document.createElement('div')
+          contentEl.className = 'hexagontent'
+          contentEl.textContent = emojis[Math.floor(Math.random() * emojis.length)]
+          hexEl.appendChild(contentEl)
+          pairEl.appendChild(hexEl)
+        }
+      }
+
+      /*
       Array.from(document.querySelectorAll('.watermarked')).forEach(function(el) {
         el.dataset.watermark = (el.dataset.watermark + ' ').repeat(300);
       });
+      */
     </script>
   </body>
 </html>
