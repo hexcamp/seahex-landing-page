@@ -28,6 +28,11 @@ echo Adding to IPFS...
 export CID=$(cat ./tmp/cid.txt)
 echo CID $CID
 
+echo Checking if local IPFS is running
+
+ipfs swarm connect /ip4/185.246.85.37/tcp/4001/p2p/12D3KooW9xuJVGEV83LqpPtBR88J98jFGqZW9ENbNBn9Cp4MzUwn/p2p-circuit/p2p/12D3KooWRuWQMdoxXFwPP9qFNrp3xNkfWCb9pbnS62xzBkRvd67n
+ipfs ping 12D3KooWRuWQMdoxXFwPP9qFNrp3xNkfWCb9pbnS62xzBkRvd67n --count 1
+
 echo Pinning to IPFS Cluster...
 
 HOST=/dns4/pq-pop-ca-1-cluster.infra.hex.camp/tcp/443
