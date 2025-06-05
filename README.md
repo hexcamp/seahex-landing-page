@@ -1,7 +1,7 @@
-vichex-homepage
+seahex-landing-page
 ===
 
-Website at https://vichex.ca
+Website at https://seahex.org
 
 ## License
 
